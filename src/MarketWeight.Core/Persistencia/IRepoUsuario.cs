@@ -2,6 +2,7 @@ namespace MarketWeight.Core.Persistencia;
 
 public interface IRepoUsuario :
     IRepoAlta<Usuario>,
+    IRepoAltaAsync<Usuario>,
     IRepoListado<Usuario>,
     IRepoDetalle<Usuario, uint>
 {

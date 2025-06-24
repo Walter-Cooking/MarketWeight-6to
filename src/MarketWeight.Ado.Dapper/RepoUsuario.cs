@@ -36,12 +36,15 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         }
     }
 
+
+
     public IEnumerable<Usuario> Obtener()
     {
         var consulta = "SELECT * FROM Usuario";
         var usuarios = Conexion.Query<Usuario>(consulta);
         return usuarios;
     }
+
 
     public IEnumerable<UsuarioMoneda> ObtenerUsuarioMoneda()
     {
@@ -56,9 +59,7 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         var usuarios = Conexion.QueryFirstOrDefault<Usuario>(consulta);
 
         return usuarios;
-    }
-
-    
+    }    
 
     public void Ingreso(uint idusuario, decimal saldo)
     {
@@ -69,6 +70,8 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
 
         Conexion.Execute("IngresarDinero", parametros);
     }
+
+
     public void Compra(uint idusuario, decimal cantidad, uint idmoneda)
     {
 
@@ -80,17 +83,18 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         Conexion.Execute("ComprarMoneda", parametros);
     }
 
-    public void Transferencia( uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido){
+
+    public async Task TransferenciaAsync( uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido){
         var parametros = new DynamicParameters();
         parametros.Add("@xidMoneda", idmoneda);
         parametros.Add("@xcantidad", cantidad);
         parametros.Add("@xidUsuarioTransfiere", idusuarioTransfiere); 
         parametros.Add("@xidUsuarioTransferido", idusuarioTransferido);
 
-        Conexion.Execute("Transferencia", parametros);
+        await Conexion.ExecuteAsync("Transferencia", parametros);
     }
 
-    public void Vender(uint idusuario, decimal cantidad, uint idmoneda)
+    public async Task VenderAsync(uint idusuario, decimal cantidad, uint idmoneda)
     {
 
         var parametros = new DynamicParameters();
@@ -98,7 +102,7 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         parametros.Add("@xcantidad", cantidad);
         parametros.Add("@xidmoneda", idmoneda);
 
-        Conexion.Execute("VenderMoneda", parametros);
+        await Conexion.ExecuteAsync("VenderMoneda", parametros);
     }
 
     public IEnumerable<Usuario> ObtenerPorCondicion (string condicion)
@@ -165,5 +169,74 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
 
             return usuario;
         }
+    }
+
+    ///Métodos Asincronicos
+    
+        public async Task AltaAsync(Usuario usuario)
+    {
+
+        var parametros = new DynamicParameters();
+        parametros.Add("@xnombre", usuario.Nombre);
+        parametros.Add("@xapellido", usuario.Apellido);
+        parametros.Add("@xemail", usuario.Email);
+        parametros.Add("@xpass", usuario.Password);
+        try
+        {
+            await Conexion.ExecuteAsync("AltaUsuario", parametros);
+        }
+        catch (DbException e)
+        {
+            //DuplicateKeyEntry   
+            if (e.ErrorCode == 1062)
+            {
+                throw new ConstraintException($"El Usuario {usuario.Nombre} ya ha sido ingresada.");
+            }
+            throw;
+        }
+    }
+
+    
+    public Task<IEnumerable<Usuario>> ObtenerAsync()
+    {
+        var consulta = "SELECT * FROM Usuario";
+        var usuarios = Conexion.QueryAsync<Usuario>(consulta);
+        return usuarios;
+    }
+
+    public Task<IEnumerable<UsuarioMoneda>> ObtenerUsuarioMonedaAsync()
+    {
+        var consulta = "SELECT * FROM UsuarioMoneda";
+        var usuariosMoneda = Conexion.QueryAsync<UsuarioMoneda>(consulta);
+        return usuariosMoneda;
+    }
+
+        public Task<Usuario?> DetalleAsync(uint indiceABuscar)
+    {
+        var consulta = $"SELECT * FROM Usuario WHERE idUsuario = {indiceABuscar}";
+        var usuarios = Conexion.QueryFirstOrDefaultAsync<Usuario>(consulta);
+
+        return usuarios;
+    }
+
+            public async Task IngresoAsync(uint idusuario, decimal saldo)
+    {
+
+        var parametros = new DynamicParameters();
+        parametros.Add("@xidusuario", idusuario);
+        parametros.Add("@xsaldo", saldo);
+
+        await Conexion.ExecuteAsync("IngresarDinero", parametros);
+    }
+
+            public async Task CompraAsync(uint idusuario, decimal cantidad, uint idmoneda)
+    {
+
+        var parametros = new DynamicParameters();
+        parametros.Add("@xidusuario", idusuario);
+        parametros.Add("@xcantidad", cantidad);
+        parametros.Add("@xidmoneda", idmoneda);
+
+        await Conexion.ExecuteAsync("ComprarMoneda", parametros);
     }
 }

@@ -34,6 +34,28 @@ public class RepoMoneda : RepoGenerico, IRepoMoneda
         }
     }
 
+        public async Task AltaAsync(Moneda moneda)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@xprecio", moneda.Precio);
+        parametros.Add("@xcantidad", moneda.Cantidad);
+        parametros.Add("@xnombre", moneda.Nombre);
+
+        try
+        {
+            await Conexion.ExecuteAsync("AltaCriptoMoneda", parametros);
+        }
+        catch (DbException e)
+        {
+            //DuplicateKeyEntry   
+            if (e.ErrorCode == 1062)
+            {
+                throw new ConstraintException($"La moneda {moneda.Nombre} ya ha sido ingresada.");
+            }
+            throw;
+        }
+    }
+
     public Moneda? Detalle(uint indiceABuscar)
     {
         var consulta = $"SELECT * FROM Moneda WHERE idMoneda = {indiceABuscar}";
