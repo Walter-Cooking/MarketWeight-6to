@@ -5,24 +5,20 @@ public interface IRepoUsuarioAsync :
     IRepoListado<Usuario>,
     IRepoDetalle<Usuario, uint>
 {
-    public async Task CompraAsync(uint idusuario, decimal cantidad, uint idmoneda)
-    {
-    }
+    Task CompraAsync(uint idusuario, decimal cantidad, uint idmoneda);
 
-    public async Task VenderAsync(uint idusuario, decimal cantidad, uint idmoneda)
-    {}
 
-    public async Task IngresoAsync(uint idusuario, decimal saldo)
-    {}
-    public async Task Transferencia( uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido)
-    {}
+    Task VenderAsync(uint idusuario, decimal cantidad, uint idmoneda);
 
-    public Task<Usuario> ObtenerPorCondicion (string condicion);
+    Task IngresoAsync(uint idusuario, decimal saldo);
+    Task TransferenciaAsync(uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido);
 
-    public Task<UsuarioMoneda> ObtenerUsuarioMoneda();
+    public Task<IEnumerable<Usuario>> ObtenerPorCondicionAsync(string condicion);
 
-    public Task<UsuarioMoneda> ObtenerPorCondicionUsuarioMoneda (uint? userid, decimal? cantidad);
+    public Task<IEnumerable<UsuarioMoneda>> ObtenerUsuarioMonedaAsync();
 
-    public Task<Usuario?> DetalleCompleto(uint idUsuario);
+    public Task<IEnumerable<UsuarioMoneda>> ObtenerPorCondicionUsuarioMonedaAsync(uint? userid, decimal? cantidad);
+
+    public Task<Usuario?> DetalleCompletoAsync(uint idUsuario);
 
 }
