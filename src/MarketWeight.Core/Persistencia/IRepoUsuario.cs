@@ -1,10 +1,13 @@
 namespace MarketWeight.Core.Persistencia;
 
-public interface IRepoUsuario :
+public interface IRepoUsuario:
     IRepoAlta<Usuario>,
     IRepoAltaAsync<Usuario>,
     IRepoListado<Usuario>,
+    IRepoListadoAsync<Usuario>,
+    IRepoUsuarioAsync,
     IRepoDetalle<Usuario, uint>
+
 {
     public void Compra(uint idusuario, decimal cantidad, uint idmoneda)
     {}

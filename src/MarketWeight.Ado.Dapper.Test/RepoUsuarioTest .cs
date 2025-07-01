@@ -1,4 +1,5 @@
 using System.Formats.Asn1;
+using System.Threading.Tasks;
 using MarketWeight.Core;
 using MarketWeight.Core.Persistencia;
 using MySqlConnector;
@@ -133,7 +134,7 @@ public class RepoUsuarioTest : TestBase
         Assert.NotEmpty(usuariosMoneda2);
     }
 
-        [Fact]
+    [Fact]
         public void TransferenciaFAIL()
     {
 
@@ -162,4 +163,161 @@ public class RepoUsuarioTest : TestBase
 
     }
 
+//Test Asincronicos
+
+
+    [Fact]
+    public async Task TraerOKAsync()
+    {
+        
+        var usuarios = await _repo.ObtenerAsync();
+        
+        Assert.NotEmpty(usuarios);
+        Assert.Contains(usuarios,
+            m => m.Nombre == "Mateo");
+    }
+
+
+[Fact]
+public async Task IngresarDineroOKAsync()
+{
+
+    await _repo.IngresoAsync(1, 7707m);
+    await _repo.IngresoAsync(2, 420m);
+    await _repo.IngresoAsync(3, 5000m);
+    await _repo.IngresoAsync(4, 6666m);
+
+
+    var usuario1 = await _repo.DetalleCompletoAsync(1);
+    var usuario2 = await _repo.DetalleCompletoAsync(2);
+    var usuario3 = await _repo.DetalleCompletoAsync(3);
+    var usuario4 = await _repo.DetalleCompletoAsync(4);
+
+
+    Assert.NotNull(usuario1);
+    Assert.True(usuario1.Saldo >= 7707m);
+
+    Assert.NotNull(usuario2);
+    Assert.True(usuario2.Saldo >= 420m);
+
+    Assert.NotNull(usuario3);
+    Assert.True(usuario3.Saldo >= 5000m);
+
+    Assert.NotNull(usuario4);
+    Assert.True(usuario4.Saldo >= 6666m);
 }
+
+
+    [Fact]
+    public async Task AltaUsuarioOKAsync()
+    {
+        Usuario usuarioMateo = new()
+        {
+            Nombre = "Mateo",
+            Apellido = "Murillo",
+            Email = "mateogay@gmail.com",
+            Password = "314159265358979"
+        };
+
+        await _repo.AltaAsync(usuarioMateo);
+    var usuarios = await _repo.ObtenerAsync(); 
+    Assert.Contains(usuarios, u => u.Email == "mateogay@gmail.com");
+    }
+    
+[Fact]
+public async Task ComprarMonedaOKAsync()
+{
+
+    await _repo.CompraAsync(3, 1.5m, 2);
+    await _repo.CompraAsync(2, 5m, 3);   
+    await _repo.CompraAsync(2, 1.5m, 1); 
+
+    var usuario2 = await _repo.DetalleCompletoAsync(2);
+    var usuario3 = await _repo.DetalleCompletoAsync(3);
+
+
+    Assert.NotNull(usuario2.Billetera);
+    Assert.Contains(usuario2.Billetera, b => b.idMoneda == 1 && b.Cantidad >= 1.5m);
+    Assert.Contains(usuario2.Billetera, b => b.idMoneda == 3 && b.Cantidad >= 5m);
+
+    Assert.NotNull(usuario3.Billetera);
+    Assert.Contains(usuario3.Billetera, b => b.idMoneda == 2 && b.Cantidad >= 1.5m);
+}
+
+
+    [Fact]
+    public async Task ComprarMonedaFailAsync()
+    {
+        var error = await Assert.ThrowsAnyAsync<Exception> (()=>_repo.CompraAsync(6, 0.5m, 1));
+        Assert.Contains("Insuficiente", error.Message);
+    }
+
+    [Fact]
+    public async Task VenderMonedaOKAsync()
+    {
+        await _repo.VenderAsync(2, 0.1m, 1);
+    }
+
+    [Fact]
+    public async Task VenderMonedaFailAsync()
+    {
+        var error =await Assert.ThrowsAnyAsync<Exception> (()=>_repo.VenderAsync(5, 0.5m, 2));
+        Assert.Contains("Insuficiente", error.Message);
+
+        error =await Assert.ThrowsAnyAsync<Exception> (()=>_repo.VenderAsync(6, 0.5m, 5));
+        Assert.Contains("Insuficiente", error.Message);
+
+    }
+    
+    [Fact]
+    public async Task ObtenerPorCondicionOKAsync()
+    {
+        var usuarios =await  _repo.ObtenerPorCondicionAsync("saldo >= 1000");
+        Assert.NotEmpty(usuarios);
+    }
+    [Fact]
+
+    public async Task TransferenciaOKAsync()
+    {
+        await _repo.CompraAsync(2, 2.5m, 1);
+        var usuariosMoneda1 = await _repo.ObtenerPorCondicionUsuarioMonedaAsync(2, 0.5m);/*string? userid, decimal cantidad*/
+
+
+        Assert.NotEmpty(usuariosMoneda1);
+
+        await _repo.TransferenciaAsync(2, 0.5m, 2, 6);
+
+        var usuariosMoneda2 =await _repo.ObtenerPorCondicionUsuarioMonedaAsync(6, 0.5m);
+        Assert.NotEmpty(usuariosMoneda2);
+    }
+    [Fact]
+        public async Task TransferenciaFAILAsync()
+    {
+
+        var error = await Assert.ThrowsAnyAsync<Exception> (()=>_repo.TransferenciaAsync(2, 0.5m, 8, 6));
+        Assert.Equal("Cantidad Insuficiente!", error.Message);
+
+    }
+
+     [Fact]
+    public async Task DetalleCompletoOKasync()
+    {
+        var usuario =await _repo.DetalleCompletoAsync(1);
+        Assert.NotNull(usuario);
+
+    }
+
+    [Fact]
+    public async Task DetalleCompletoBilleteraOKAsync()
+    {
+        var usuario =await _repo.DetalleCompletoAsync(2);
+        Assert.NotNull(usuario);
+        Assert.NotNull(usuario.Billetera);
+        Assert.NotNull(usuario.Transacciones);
+        Assert.NotEmpty(usuario.Billetera);
+        Assert.NotEmpty(usuario.Transacciones);
+
+    }
+
+}
+

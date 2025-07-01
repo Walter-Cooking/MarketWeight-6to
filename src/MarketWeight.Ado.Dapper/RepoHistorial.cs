@@ -3,6 +3,7 @@ using MarketWeight.Core;
 using MarketWeight.Core.Persistencia;
 using Dapper;
 using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace MarketWeight.Ado.Dapper;
 
@@ -35,7 +36,23 @@ public class RepoHistorial : RepoGenerico, IRepoHistorial
         }   
     }
 
-        public async Task AltaAsync(Historial historial)
+
+    public Historial? Detalle(uint indiceABuscar)
+    {
+        var consulta = $"SELECT * FROM Moneda WHERE idMoneda = {indiceABuscar}";
+        var registro = Conexion.QueryFirstOrDefault<Historial>(consulta);
+        return registro;
+    }
+
+    public IEnumerable<Historial> Obtener()
+    {
+        var consulta = "SELECT * FROM Usuario";
+        var registros = Conexion.Query<Historial>(consulta);
+        return registros;
+    }
+    
+//Métodos asincronicos
+    public async Task AltaAsync(Historial historial)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@xidMoneda", historial.idMoneda);
@@ -58,17 +75,17 @@ public class RepoHistorial : RepoGenerico, IRepoHistorial
         }   
     }
 
-    public Historial? Detalle(uint indiceABuscar)
+        public async Task<Historial?> DetalleAsync(uint indiceABuscar)
     {
         var consulta = $"SELECT * FROM Moneda WHERE idMoneda = {indiceABuscar}";
-        var registro = Conexion.QueryFirstOrDefault<Historial>(consulta);
+        var registro =await Conexion.QueryFirstOrDefaultAsync<Historial>(consulta);
         return registro;
     }
 
-    public IEnumerable<Historial> Obtener()
+    public async Task<IEnumerable<Historial>> ObtenerAsync()
     {
         var consulta = "SELECT * FROM Usuario";
-        var registros = Conexion.Query<Historial>(consulta);
+        var registros = await Conexion.QueryAsync<Historial>(consulta);
         return registros;
     }
     

@@ -34,7 +34,31 @@ public class RepoMoneda : RepoGenerico, IRepoMoneda
         }
     }
 
-        public async Task AltaAsync(Moneda moneda)
+    public Moneda? Detalle(uint indiceABuscar)
+    {
+        var consulta = $"SELECT * FROM Moneda WHERE idMoneda = {indiceABuscar}";
+        var monedas = Conexion.QueryFirstOrDefault<Moneda>(consulta);
+        return monedas;
+    }
+
+    public IEnumerable<Moneda> Obtener()
+    {
+        var consulta = "SELECT * FROM Moneda";
+        var monedas = Conexion.Query<Moneda>(consulta);
+        return monedas;
+    }
+
+    public IEnumerable<Moneda> ObtenerConCondicion(string condicion)
+    {
+        var consulta = $"SELECT * FROM Moneda WHERE {condicion}";
+        var monedas = Conexion.Query<Moneda>(consulta);
+        return monedas;
+    }
+
+
+//Métodos asincronicos
+
+    public async Task AltaAsync(Moneda moneda)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@xprecio", moneda.Precio);
@@ -56,24 +80,26 @@ public class RepoMoneda : RepoGenerico, IRepoMoneda
         }
     }
 
-    public Moneda? Detalle(uint indiceABuscar)
+        public async Task<Moneda?> DetalleAsync(uint indiceABuscar)
     {
         var consulta = $"SELECT * FROM Moneda WHERE idMoneda = {indiceABuscar}";
-        var monedas = Conexion.QueryFirstOrDefault<Moneda>(consulta);
+        var monedas = await Conexion.QueryFirstOrDefaultAsync<Moneda>(consulta);
         return monedas;
     }
 
-    public IEnumerable<Moneda> Obtener()
+    public async Task<IEnumerable<Moneda>> ObtenerAsync()
     {
         var consulta = "SELECT * FROM Moneda";
-        var monedas = Conexion.Query<Moneda>(consulta);
+        var monedas = await Conexion.QueryAsync<Moneda>(consulta);
         return monedas;
     }
 
-    public IEnumerable<Moneda> ObtenerConCondicion(string condicion)
+    public async Task<IEnumerable<Moneda>> ObtenerConCondicionAsync(string condicion)
     {
         var consulta = $"SELECT * FROM Moneda WHERE {condicion}";
-        var monedas = Conexion.Query<Moneda>(consulta);
+        var monedas = await Conexion.QueryAsync<Moneda>(consulta);
         return monedas;
     }
+
+
 }

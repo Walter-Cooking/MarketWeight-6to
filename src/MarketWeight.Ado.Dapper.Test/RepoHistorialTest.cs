@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MarketWeight.Core;
 using MarketWeight.Core.Persistencia;
 
@@ -13,6 +14,18 @@ public class RepoHistorialTest : TestBase
     public void TraerOK()
     {
         var historiales = _repo.Obtener();
+        
+        Assert.NotEmpty(historiales);
+        Assert.Contains(historiales,
+            h => h.IdUsuario == 2);
+    }
+
+//Test asincronico
+
+    [Fact]
+    public async Task TraerOKAsync()
+    {
+        var historiales =await _repo.ObtenerAsync();
         
         Assert.NotEmpty(historiales);
         Assert.Contains(historiales,
