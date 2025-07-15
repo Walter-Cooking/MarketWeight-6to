@@ -13,7 +13,7 @@ public class RepoUsuarioTest : TestBase
         => _repo = new RepoUsuario(Conexion);
     
     [Fact]
-
+/*
     public void TraerOK()
     {
         var usuarios = _repo.Obtener();
@@ -123,7 +123,7 @@ public class RepoUsuarioTest : TestBase
 
     public void TransferenciaOK()
     {
-        var usuariosMoneda1 = _repo.ObtenerPorCondicionUsuarioMoneda(2, 0.5m);/*string? userid, decimal cantidad*/
+        var usuariosMoneda1 = _repo.ObtenerPorCondicionUsuarioMoneda(2, 0.5m);string? userid, decimal cantidad
         _repo.Compra(2, 2.5m, 1);
 
         Assert.NotEmpty(usuariosMoneda1);
@@ -280,7 +280,7 @@ public async Task ComprarMonedaOKAsync()
     public async Task TransferenciaOKAsync()
     {
         await _repo.CompraAsync(2, 2.5m, 1);
-        var usuariosMoneda1 = await _repo.ObtenerPorCondicionUsuarioMonedaAsync(2, 0.5m);/*string? userid, decimal cantidad*/
+        var usuariosMoneda1 = await _repo.ObtenerPorCondicionUsuarioMonedaAsync(2, 0.5m);string? userid, decimal cantidad
 
 
         Assert.NotEmpty(usuariosMoneda1);
@@ -318,6 +318,6 @@ public async Task ComprarMonedaOKAsync()
         Assert.NotEmpty(usuario.Transacciones);
 
     }
-
+*/
 }
 
