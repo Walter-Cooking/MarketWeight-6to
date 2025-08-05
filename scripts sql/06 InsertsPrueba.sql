@@ -1,5 +1,6 @@
 Use 5to_MarketWeight
 
+ALTER DATABASE 5to_MarketWeight CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CALL AltaCriptoMoneda(100.50, 100, 'Bitcoin');
 CALL AltaCriptoMoneda(50.25, 100, 'Ethereum');
 CALL AltaCriptoMoneda(75.00, 100, 'Ripple');
@@ -26,3 +27,19 @@ CALL IngresarDinero(2, 10000);
 
 CALL ComprarMoneda (2, 3, 2);
 CALL Transferencia (2, 0.5, 2, 3);
+
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE usuario SET apellido = "Garcia" WHERE email = 'ana.garcia@example.com';
+
+UPDATE usuario SET apellido = 'Martínez' WHERE email = 'luis.martinez@example.com';
+UPDATE usuario SET apellido = 'Fernández' WHERE email = 'marta.fernandez@example.com';
+UPDATE usuario SET apellido = 'Gómez' WHERE email = 'carlos.gomez@example.com';
+UPDATE usuario SET apellido = 'Rodríguez' WHERE email = 'laura.rodriguez@example.com';
+UPDATE usuario SET apellido = 'López' WHERE email = 'pedro.lopez@example.com';
+UPDATE usuario SET apellido = 'Hernández' WHERE email = 'sofia.hernandez@example.com';
+UPDATE usuario SET apellido = 'Pérez' WHERE email = 'daniel.perez@example.com';
+UPDATE usuario SET apellido = 'Ramírez' WHERE email = 'javier.ramirez@example.com';
+UPDATE usuario SET nombre = 'Sofía' WHERE email = 'sofia.hernandez@example.com';
+UPDATE usuario SET nombre = 'María' WHERE email = 'maria.torres@example.com';
+SET SQL_SAFE_UPDATES = 1;
