@@ -4,6 +4,7 @@ using MarketWeight.Ado.Dapper;
 using MySqlConnector;
 using System.Data;
 using Scalar.AspNetCore;
+using MinimalAPI.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,11 @@ if (app.Environment.IsDevelopment())
 
 //Usuario
 app.MapGet("/usuarios", async (IRepoUsuario repo) =>
-    await repo.ObtenerAsync());
+{
+    var usuarios = await repo.ObtenerAsync();
+    return Results.Ok(usuarios.Select(u=>new DTOListadoUsuarios(u)));
+});
+    
 
 app.MapGet("/usuarios/{id:int}", async (int id, IRepoUsuario repo) =>
 {
