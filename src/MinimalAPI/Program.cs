@@ -42,7 +42,7 @@ app.MapGet("/usuarios", async (IRepoUsuario repo) =>
 app.MapGet("/usuarios/{id:int}", async (int id, IRepoUsuario repo) =>
 {
     var usuario = await repo.DetalleCompletoAsync((uint)id);
-    return usuario is not null ? Results.Ok(usuario) : Results.NotFound();
+    return usuario is not null ? Results.Ok(new DTOListadoUsuarios(usuario)) : Results.NotFound();
 });
 
 app.MapPost("/usuarios", async (Usuario usuario, IRepoUsuario repo) =>
