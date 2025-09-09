@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -6,8 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketWeight.Core", "Market
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketWeight.Ado.Dapper", "MarketWeight.Ado.Dapper\MarketWeight.Ado.Dapper.csproj", "{96B8FD3E-F346-45A7-8432-D907B9DCBA7E}"
 EndProject
-
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalAPI", "MinimalAPI\MinimalAPI.csproj", "{B609A963-8444-4237-B114-7AC7EB117BAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketWeight-6toaeaeaeaeae.mvc", "..\MarketWeight-6toaeaeaeaeae.mvc\MarketWeight-6toaeaeaeaeae.mvc.csproj", "{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,18 @@ Global
 		{B609A963-8444-4237-B114-7AC7EB117BAB}.Release|x64.Build.0 = Release|Any CPU
 		{B609A963-8444-4237-B114-7AC7EB117BAB}.Release|x86.ActiveCfg = Release|Any CPU
 		{B609A963-8444-4237-B114-7AC7EB117BAB}.Release|x86.Build.0 = Release|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Debug|x64.Build.0 = Debug|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Debug|x86.Build.0 = Debug|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Release|x64.ActiveCfg = Release|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Release|x64.Build.0 = Release|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Release|x86.ActiveCfg = Release|Any CPU
+		{6FB11FDF-E3D9-4C67-A892-4C8687F0279F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
