@@ -1,21 +1,27 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MarketWeight_6toaeaeaeaeae.mvc.Models;
+using Marketweight_6to.mvc.Models;
+using MarketWeight_6to.mvc.ViewModel;
+using MarketWeight.Core.Persistencia;
 
-namespace MarketWeight_6toaeaeaeaeae.mvc.Controllers;
+namespace Marketweight_6to.mvc.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IRepoMoneda _repoMoneda;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IRepoMoneda repoMoneda)
     {
         _logger = logger;
+        _repoMoneda = repoMoneda;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var compraVM = new CompraVM();
+        compraVM.Monedas = (await _repoMoneda.ObtenerAsync()).ToList();
+        return View(compraVM); 
     }
 
     public IActionResult Privacy()

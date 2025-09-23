@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>MarketWeight_6toaeaeaeaeae.mvc</RootNamespace>
+    <RootNamespace>marketweight_6toa.mvc</RootNamespace>
   </PropertyGroup>
 
 </Project>

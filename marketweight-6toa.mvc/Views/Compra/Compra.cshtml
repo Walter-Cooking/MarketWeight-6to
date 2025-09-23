@@ -1,0 +1,56 @@
+@model MarketWeight_6to.mvc.ViewModel.CompraVM
+@using MarketWeight.Core
+
+<h2>Comprar Monedas</h2>
+
+<form asp-controller="Compra" asp-action="Comprar" method="post">
+    <div>
+        <label>ID Usuario:</label>
+        <input asp-for="UsuarioId" />
+    </div>
+
+    <div>
+        <label>Seleccionar moneda:</label>
+        <select asp-for="MonedaId" asp-items="@(new SelectList(Model.Monedas, "IdMoneda", "Nombre"))"></select>
+    </div>
+
+    <div>
+        <label>Cantidad:</label>
+        <input asp-for="Cantidad" />
+    </div>
+
+    <button type="submit">Comprar</button>
+</form>
+
+@if (TempData["Mensaje"] != null)
+{
+    <p style="color:green">@TempData["Mensaje"]</p>
+}
+
+@if (TempData["Error"] != null)
+{
+    <p style="color:red">@TempData["Error"]</p>
+}
+
+<h3>Monedas disponibles</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var moneda in Model.Monedas)
+        {
+            <tr>
+                <td>@moneda.IdMoneda</td>
+                <td>@moneda.Nombre</td>
+                <td>@moneda.Precio</td>
+                <td>@moneda.Cantidad</td>
+            </tr>
+        }
+    </tbody>
+</table>

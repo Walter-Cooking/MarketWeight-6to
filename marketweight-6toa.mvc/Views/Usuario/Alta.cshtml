@@ -1,0 +1,33 @@
+@model IEnumerable<MarketWeight.Core.Usuario>
+
+<h2>Lista de Usuarios</h2>
+
+<p>
+    <a asp-action="Crear" class="btn btn-primary">Crear Usuario</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Saldo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var usuario in Model)
+    {
+        <tr>
+            <td>@usuario.IdUsuario</td>
+            <td>@usuario.Nombre @usuario.Apellido</td>
+            <td>@usuario.Email</td>
+            <td>@usuario.Saldo</td>
+            <td>
+                <a asp-controller="Usuario" asp-action="Detalle" asp-route-id="@usuario.IdUsuario">Ver detalle</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

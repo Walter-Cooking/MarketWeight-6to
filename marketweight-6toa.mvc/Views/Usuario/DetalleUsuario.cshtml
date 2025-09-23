@@ -1,0 +1,9 @@
+@model MarketWeight.Core.Usuario
+
+<h2>Detalle del Usuario</h2>
+
+<p><strong>Nombre:</strong> @Model.Nombre @Model.Apellido</p>
+<p><strong>Email:</strong> @Model.Email</p>
+<p><strong>Saldo:</strong> @Model.Saldo</p>
+
+<a asp-controller= "Home"asp-action="Index">Volver a la lista</a>
