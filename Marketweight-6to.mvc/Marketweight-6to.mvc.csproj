@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\MarketWeight.Core\MarketWeight.Core.csproj" />
+    <ProjectReference Include="..\src\MarketWeight.Ado.Dapper\MarketWeight.Ado.Dapper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Marketweight_6to.mvc</RootNamespace>
+  </PropertyGroup>
+
+</Project>

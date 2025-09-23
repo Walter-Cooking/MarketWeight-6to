@@ -37,8 +37,8 @@ namespace MarketWeight_6to.mvc.Controllers
             {
                 try
                 {
-                    _repoUsuario.Compra(model.UsuarioId, model.Cantidad, model.MonedaId);
-                    TempData["Mensaje"] = $"{model.UsuarioId} compró {model.Cantidad} de idmoneda: {model.MonedaId}.";
+                    _repoUsuario.Compra(model.idMoneda, model.Cantidad, model.idUsuario);
+                    TempData["Mensaje"] = $"{model.idUsuario} compró {model.Cantidad} de idmoneda: {model.idUsuario}.";
                 }
                 catch (Exception ex)
                 {

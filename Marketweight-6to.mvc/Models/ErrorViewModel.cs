@@ -1,4 +1,4 @@
-namespace marketweight_6toa.mvc.Models;
+namespace Marketweight_6to.mvc.Models;
 
 public class ErrorViewModel
 {

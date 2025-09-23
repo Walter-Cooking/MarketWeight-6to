@@ -1,7 +1,20 @@
+using System.Data;
+using MarketWeight.Ado.Dapper;
+using MarketWeight.Core.Persistencia;
+using MySqlConnector;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+
+builder.Services.AddScoped<IDbConnection>(sp =>
+    new MySqlConnection(builder.Configuration.GetConnectionString("MySQL")));
+
+builder.Services.AddScoped<IRepoMoneda, RepoMoneda>();
+builder.Services.AddScoped<IRepoUsuario, RepoUsuario>();
+
 
 var app = builder.Build();
 

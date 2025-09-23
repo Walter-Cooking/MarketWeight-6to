@@ -6,12 +6,12 @@
 <form asp-controller="Compra" asp-action="Comprar" method="post">
     <div>
         <label>ID Usuario:</label>
-        <input asp-for="UsuarioId" />
+        <input asp-for="idUsuario" />
     </div>
 
     <div>
         <label>Seleccionar moneda:</label>
-        <select asp-for="MonedaId" asp-items="@(new SelectList(Model.Monedas, "IdMoneda", "Nombre"))"></select>
+        <select asp-for="idMoneda" asp-items="@(new SelectList(Model.Monedas, "IdMoneda", "Nombre"))"></select>
     </div>
 
     <div>
