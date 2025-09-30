@@ -1,0 +1,9 @@
+@model Marketweight_6to.mvc.RegistroVM
+
+<form asp-action="Registro" method="post">
+    <input asp-for="Nombre" placeholder="Nombre" />
+    <input asp-for="Apellido" placeholder="Apellido" />
+    <input asp-for="Email" placeholder="Email" />
+    <input asp-for="Password" type="password" placeholder="Contraseña" />
+    <button type="submit">Registrar</button>
+</form>

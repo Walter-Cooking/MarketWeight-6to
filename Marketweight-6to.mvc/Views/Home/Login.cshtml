@@ -1,0 +1,17 @@
+@model Marketweight_6to.mvc.LoginVM
+
+<form asp-action="Login" method="post">
+    <input asp-for="Email" placeholder="Email" />
+    <input asp-for="Password" type="password" placeholder="Contraseña" />
+    <button type="submit">Ingresar</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div style="color:red">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
