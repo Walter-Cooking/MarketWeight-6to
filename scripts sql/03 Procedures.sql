@@ -11,7 +11,7 @@ END $$
 DROP PROCEDURE IF EXISTS AltaUsuario $$
 CREATE PROCEDURE `AltaUsuario`(xnombre VARCHAR(45), xapellido  VARCHAR(45), xemail  VARCHAR(45), xpass CHAR(64), xsaldo DECIMAL(20,10))
 BEGIN
-       INSERT INTO `Usuario` (nombre, apellido, email, pass, saldo)
+       INSERT INTO `Usuario` (nombre, apellido, email, Password, saldo)
            VALUES(xnombre, xapellido, xemail, xpass, xsaldo);
 END $$
 

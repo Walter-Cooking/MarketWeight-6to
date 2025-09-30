@@ -45,11 +45,17 @@ public class RepoHistorial : RepoGenerico, IRepoHistorial
     }
 
     public IEnumerable<Historial> Obtener()
-    {
-        var consulta = "SELECT * FROM Usuario";
-        var registros = Conexion.Query<Historial>(consulta);
-        return registros;
-    }
+{
+    var consulta = "SELECT * FROM Historial";
+    return Conexion.Query<Historial>(consulta);
+}
+
+public async Task<IEnumerable<Historial>> ObtenerAsync()
+{
+    var consulta = "SELECT * FROM Historial";
+    return await Conexion.QueryAsync<Historial>(consulta);
+}
+
     
 //Métodos asincronicos
     public async Task AltaAsync(Historial historial)
@@ -82,11 +88,5 @@ public class RepoHistorial : RepoGenerico, IRepoHistorial
         return registro;
     }
 
-    public async Task<IEnumerable<Historial>> ObtenerAsync()
-    {
-        var consulta = "SELECT * FROM Usuario";
-        var registros = await Conexion.QueryAsync<Historial>(consulta);
-        return registros;
-    }
     
 }

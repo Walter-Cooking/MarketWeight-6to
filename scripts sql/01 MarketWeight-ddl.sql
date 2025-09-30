@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `Usuario` (
   `nombre` VARCHAR(45) NOT NULL,
   `apellido` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `pass` CHAR(64) NOT NULL,
+  `Password` CHAR(64) NOT NULL,
   `saldo` DECIMAL(20,10) NOT NULL,
   PRIMARY KEY (`idUsuario`),
   UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario` ASC) VISIBLE)

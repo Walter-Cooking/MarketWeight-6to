@@ -1,0 +1,27 @@
+@model IEnumerable<MarketWeight.Core.Historial>
+
+<h2>Historial de Transacciones</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Moneda</th>
+            <th>Cantidad</th>
+            <th>Compra</th>
+            <th>Fecha/Hora</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.IdUsuario</td>
+            <td>@item.idMoneda</td>
+            <td>@item.Cantidad</td>
+            <td>@(item.Compra ? "Sí" : "No")</td>
+            <td>@item.FechaHora</td>
+        </tr>
+    }
+    </tbody>
+</table>

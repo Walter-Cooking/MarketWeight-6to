@@ -80,9 +80,10 @@ public IActionResult Login(LoginVM modelo)
 
     HttpContext.Session.SetString("UsuarioId", usuario.IdUsuario.ToString());
     HttpContext.Session.SetString("UsuarioNombre", usuario.Nombre);
+    HttpContext.Session.SetString("Email", usuario.Email);
 
 
-    return RedirectToAction("Comprar");
+    return RedirectToAction("Comprar", "Compra");
 }
 
 

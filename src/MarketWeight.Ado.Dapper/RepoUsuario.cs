@@ -61,7 +61,15 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         var usuarios = Conexion.QueryFirstOrDefault<Usuario>(consulta);
 
         return usuarios;
-    }    
+    }
+
+    public Usuario? DetalleEmail(string email)
+    {
+        var consulta = "SELECT * FROM Usuario WHERE Email = @xemail";
+        var usuario = Conexion.QueryFirstOrDefault<Usuario>(consulta, new { xemail = email });
+        return usuario;
+    }
+
 
     public void Ingreso(uint idusuario, decimal saldo)
     {
@@ -86,11 +94,12 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
     }
 
 
-    public void Transferencia( uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido){
+    public void Transferencia(uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido)
+    {
         var parametros = new DynamicParameters();
         parametros.Add("@xidMoneda", idmoneda);
         parametros.Add("@xcantidad", cantidad);
-        parametros.Add("@xidUsuarioTransfiere", idusuarioTransfiere); 
+        parametros.Add("@xidUsuarioTransfiere", idusuarioTransfiere);
         parametros.Add("@xidUsuarioTransferido", idusuarioTransferido);
 
         Conexion.Execute("Transferencia", parametros);
@@ -107,14 +116,14 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         Conexion.Execute("VenderMoneda", parametros);
     }
 
-    public IEnumerable<Usuario> ObtenerPorCondicion (string condicion)
+    public IEnumerable<Usuario> ObtenerPorCondicion(string condicion)
     {
         var consulta = $"SELECT U.nombre, U.saldo FROM Usuario U WHERE {condicion}";
         var usuarios = Conexion.Query<Usuario>(consulta);
         return usuarios;
     }
 
-    public IEnumerable<UsuarioMoneda> ObtenerPorCondicionUsuarioMoneda (uint? userid, decimal? cantidad)
+    public IEnumerable<UsuarioMoneda> ObtenerPorCondicionUsuarioMoneda(uint? userid, decimal? cantidad)
     {
         var consulta = "SELECT UM.idUsuario, UM.cantidad FROM UsuarioMoneda UM WHERE";
         var and = false;
@@ -133,7 +142,7 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         {
             if (and)
                 consulta += " AND";
-                
+
             consulta += $" cantidad = {cantidad}";
         }
 
@@ -167,15 +176,15 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
 
             if (usuario is not null)
                 usuario.Billetera = multi.Read<UsuarioMoneda>().ToList();
-                usuario.Transacciones = multi.Read<Historial>().ToList();
+            usuario.Transacciones = multi.Read<Historial>().ToList();
 
             return usuario;
         }
     }
 
     ///Métodos Asincronicos
-    
-        public async Task AltaAsync(Usuario usuario)
+
+    public async Task AltaAsync(Usuario usuario)
     {
 
         var parametros = new DynamicParameters();
@@ -199,7 +208,7 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         }
     }
 
-    
+
     public Task<IEnumerable<Usuario>> ObtenerAsync()
     {
         var consulta = "SELECT * FROM Usuario";
@@ -244,12 +253,12 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
     }
 
 
-    public async Task TransferenciaAsync( uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido)
+    public async Task TransferenciaAsync(uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@xidMoneda", idmoneda);
         parametros.Add("@xcantidad", cantidad);
-        parametros.Add("@xidUsuarioTransfiere", idusuarioTransfiere); 
+        parametros.Add("@xidUsuarioTransfiere", idusuarioTransfiere);
         parametros.Add("@xidUsuarioTransferido", idusuarioTransferido);
 
         await Conexion.ExecuteAsync("Transferencia", parametros);
@@ -265,14 +274,14 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
 
         await Conexion.ExecuteAsync("VenderMoneda", parametros);
     }
-    
-    public async Task<IEnumerable<Usuario>> ObtenerPorCondicionAsync (string condicion)
+
+    public async Task<IEnumerable<Usuario>> ObtenerPorCondicionAsync(string condicion)
     {
         var consulta = $"SELECT U.nombre, U.saldo FROM Usuario U WHERE {condicion}";
         var usuario = await Conexion.QueryAsync<Usuario>(consulta);
         return usuario;
     }
-    public async Task<IEnumerable<UsuarioMoneda>> ObtenerPorCondicionUsuarioMonedaAsync (uint? userid, decimal? cantidad)
+    public async Task<IEnumerable<UsuarioMoneda>> ObtenerPorCondicionUsuarioMonedaAsync(uint? userid, decimal? cantidad)
     {
         var consulta = "SELECT UM.idUsuario, UM.cantidad FROM UsuarioMoneda UM WHERE";
         var and = false;
@@ -291,7 +300,7 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         {
             if (and)
                 consulta += " AND";
-                
+
             consulta += $" cantidad = {cantidad}";
         }
 
@@ -303,19 +312,19 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
     }
 
     public async Task<Usuario?> DetalleCompletoAsync(uint idUsuario)
-{
-    using (var multi = await Conexion.QueryMultipleAsync(_queryDetalle, new { xidUsuario = idUsuario }))
     {
-        var usuario = await multi.ReadSingleOrDefaultAsync<Usuario>();
-
-        if (usuario is not null)
+        using (var multi = await Conexion.QueryMultipleAsync(_queryDetalle, new { xidUsuario = idUsuario }))
         {
-            usuario.Billetera = (await multi.ReadAsync<UsuarioMoneda>()).ToList();
-            usuario.Transacciones = (await multi.ReadAsync<Historial>()).ToList();
+            var usuario = await multi.ReadSingleOrDefaultAsync<Usuario>();
+
+            if (usuario is not null)
+            {
+                usuario.Billetera = (await multi.ReadAsync<UsuarioMoneda>()).ToList();
+                usuario.Transacciones = (await multi.ReadAsync<Historial>()).ToList();
+            }
+
+            return usuario;
         }
-
-        return usuario;
     }
+
 }
-
-    }

@@ -1,0 +1,33 @@
+@model IEnumerable<MarketWeight.Core.Moneda>
+
+<h2>Lista de Monedas</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+<!-- Botón para crear una nueva moneda -->
+<a class="btn btn-success mb-3" href="@Url.Action("Crear", "Moneda")">Agregar Moneda</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var moneda in Model)
+    {
+        <tr>
+            <td>@moneda.IdMoneda</td>
+            <td>@moneda.Nombre</td>
+            <td>@moneda.Precio</td>
+            <td>@moneda.Cantidad</td>
+        </tr>
+    }
+    </tbody>
+</table>

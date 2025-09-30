@@ -4,7 +4,7 @@ using MarketWeight.Ado.Dapper;
 using MarketWeight.Core.Persistencia;
 using MarketWeight.Core;
 
-namespace Marketweight_6to.mvc;
+namespace Marketweight_6to.mvc.Controllers;
 
 public class UsuarioController : Controller
 {
@@ -22,33 +22,24 @@ public class UsuarioController : Controller
         return View(usuarios);
     }
 
-
-    public IActionResult DetalleUsuario(uint id)
+[HttpGet]
+    public IActionResult DetalleUsuario()
     {
-        var usuario = _repoUsuario.Detalle(id);
-        if (usuario == null)
+        var email = HttpContext.Session.GetString("Email");
+        if (string.IsNullOrEmpty(email))
         {
             return NotFound();
         }
-        return View(usuario);
+        var detalle = _repoUsuario.DetalleEmail(email);
+
+        if (detalle == null)
+        {
+            return NotFound();
+        }
+        return View(detalle);
     }
         
-            public IActionResult Crear()
-        {
-            return View(); 
-        }
-        
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Alta(Usuario usuario)
-    {
-        if (ModelState.IsValid)
-        {
-            _repoUsuario.Alta(usuario);
-            return RedirectToAction(nameof(Index));
-        }
 
-        return View(usuario);   
-            
-        }
+        
+  
     }
