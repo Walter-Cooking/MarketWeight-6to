@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Marketweight_6to.mvc.Models;
 using MarketWeight.Core.Persistencia;
@@ -16,6 +18,15 @@ public HomeController(ILogger<HomeController> logger, IRepoUsuario repoUsuario)
 {
     _logger = logger;
     _repoUsuario = repoUsuario;
+}
+
+private string HashPassword(string password)
+{
+    using (var sha256 = SHA256.Create())
+    {
+        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return Convert.ToHexString(hashedBytes).ToLower();
+    }
 }
 
 [HttpGet]
@@ -45,7 +56,7 @@ public IActionResult Registro()
 
             _repoUsuario.Alta(nuevoUsuario);
 
-            TempData["Mensaje"] = "Usuario registrado con éxito. Ahora podés iniciar sesión.";
+            TempData["Mensaje"] = "Usuario registrado con éxito";
             return RedirectToAction("Login");
         }
         catch (Exception ex)
@@ -68,9 +79,12 @@ public IActionResult Login(LoginVM modelo)
     if (!ModelState.IsValid)
         return View(modelo);
 
+
+    var hashedPassword = HashPassword(modelo.Password);
+    
     var usuario = _repoUsuario
         .Obtener()
-        .FirstOrDefault(u => u.Email == modelo.Email && u.Password == modelo.Password);
+        .FirstOrDefault(u => u.Email == modelo.Email && u.Password == hashedPassword);
 
     if (usuario == null)
     {
@@ -82,11 +96,18 @@ public IActionResult Login(LoginVM modelo)
     HttpContext.Session.SetString("UsuarioNombre", usuario.Nombre);
     HttpContext.Session.SetString("Email", usuario.Email);
 
-
     return RedirectToAction("Comprar", "Compra");
 }
 
 
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Login", "Home");
+    }
 
 /*    public IActionResult Index()
     {

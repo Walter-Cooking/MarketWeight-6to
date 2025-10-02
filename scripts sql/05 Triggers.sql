@@ -9,7 +9,7 @@ DELIMITER $$
     CREATE TRIGGER `aftAltaPass` BEFORE INSERT ON `Usuario` 
     FOR EACH ROW 
     BEGIN   
-        SET new.pass = SHA2(NEW.pass, 256);
+        SET new.Password = SHA2(NEW.Password, 256);
     END $$
     
 

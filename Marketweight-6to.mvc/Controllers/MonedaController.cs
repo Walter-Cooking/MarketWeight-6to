@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using MarketWeight_6to.mvc.ViewModel;
 using MarketWeight.Ado.Dapper;
 using MarketWeight.Core.Persistencia;
+using Marketweight_6to.mvc.Filters;
 using MarketWeight.Core;
 
 namespace Marketweight_6to.mvc.Controllers
 {
+    [Authorize]
     public class MonedaController : Controller
     {
         private readonly IRepoMoneda _repoMoneda;
@@ -15,7 +17,7 @@ namespace Marketweight_6to.mvc.Controllers
             _repoMoneda = repoMoneda;
         }
 
-        // Lista todas las monedas
+
         public IActionResult ObtenerMoneda()
         {
             var monedas = _repoMoneda.Obtener();

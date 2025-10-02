@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using MarketWeight_6to.mvc.ViewModel;
 using MarketWeight.Ado.Dapper;
 using MarketWeight.Core.Persistencia;
+using Marketweight_6to.mvc.Filters;
 using MarketWeight.Core;
 
 namespace Marketweight_6to.mvc.Controllers;
 
+[Authorize]
 public class UsuarioController : Controller
 {
     private readonly IRepoUsuario _repoUsuario;

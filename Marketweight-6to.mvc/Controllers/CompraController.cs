@@ -20,10 +20,16 @@ namespace MarketWeight_6to.mvc.Controllers
         [HttpGet]
         public IActionResult Comprar()
         {
+            var usuarioIdStr = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(usuarioIdStr))
+                return RedirectToAction("Login", "Home");
+
             var monedas = _repoMoneda.Obtener().ToList();
+            var usuarioId = uint.Parse(usuarioIdStr);
 
             var vm = new CompraVM
             {
+                idUsuario = usuarioId,
                 Monedas = monedas
             };
 
@@ -33,12 +39,19 @@ namespace MarketWeight_6to.mvc.Controllers
         [HttpPost]
         public IActionResult Comprar(CompraVM model)
         {
+            var usuarioIdStr = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(usuarioIdStr))
+                return RedirectToAction("Login", "Home");
+
+            model.idUsuario = uint.Parse(usuarioIdStr);
+            
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _repoUsuario.Compra(model.idMoneda, model.Cantidad, model.idUsuario);
-                    TempData["Mensaje"] = $"{model.idUsuario} compró {model.Cantidad} de idmoneda: {model.idUsuario}.";
+                    _repoUsuario.Compra(model.idUsuario, model.Cantidad, model.idMoneda);
+                    HttpContext.Session.GetString("UsuarioNombre");
+                    TempData["Mensaje"] = $"Compraste exitosamente.";
                 }
                 catch (Exception ex)
                 {
