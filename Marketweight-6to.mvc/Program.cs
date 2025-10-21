@@ -23,6 +23,8 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 builder.Services.AddScoped<IRepoMoneda, RepoMoneda>();
 builder.Services.AddScoped<IRepoUsuario, RepoUsuario>();
 builder.Services.AddScoped<IRepoHistorial, RepoHistorial>();
+builder.Services.Configure<List<string>>(builder.Configuration.GetSection("Admins"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

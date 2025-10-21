@@ -1,4 +1,6 @@
 @model IEnumerable<MarketWeight.Core.Moneda>
+@using Microsoft.Extensions.Options
+@inject IOptions<List<string>> AdminEmails
 
 <h2>Lista de Monedas</h2>
 
@@ -7,8 +9,15 @@
     <div class="alert alert-success">@TempData["Mensaje"]</div>
 }
 
-<!-- Botón para crear una nueva moneda -->
-<a class="btn btn-success mb-3" href="@Url.Action("Crear", "Moneda")">Agregar Moneda</a>
+@{
+    var email = Context.Session.GetString("Email");
+}
+
+
+@if (AdminEmails.Value.Contains(email))
+{
+    <a class="btn btn-success mb-3" href="@Url.Action("Crear", "Moneda")">Agregar Moneda</a>
+}
 
 <table class="table">
     <thead>
